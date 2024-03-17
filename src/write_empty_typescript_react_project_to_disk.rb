@@ -15,7 +15,7 @@ module Foobara
         inputs do
           empty_typescript_react_project_config EmptyTypescriptReactProjectConfig, :required
           # TODO: should be able to delete this and inherit it
-          output_directory :string
+          output_directory :string, default: "."
         end
 
         def execute
@@ -27,12 +27,19 @@ module Foobara
           stats
         end
 
+        # A bit confusing... we need to write the files to the output_directory/project_dir
+        # and the code that writes the generated files assumes that output_directory contains the place
+        # to write the files not the place to initiate the project
         def output_directory
-          inputs[:output_directory] || default_output_directory
+          project_directory
         end
 
-        def default_output_directory
-          "."
+        def output_parent_directory
+          inputs[:output_directory]
+        end
+
+        def project_directory
+          "#{output_parent_directory}/#{empty_typescript_react_project_config.project_dir}"
         end
 
         def generate_file_contents
@@ -48,8 +55,11 @@ module Foobara
         def run_npx_create_react_app
           puts "created empty project with create-react-app..."
 
-          Dir.chdir output_directory do
-            cmd = "npx create-react-app --template typescript whatever-frontend"
+          cmd = "npx create-react-app --template typescript #{empty_typescript_react_project_config.project_dir}"
+
+          FileUtils.mkdir_p output_parent_directory
+
+          Dir.chdir output_parent_directory do
             run_cmd_and_write_output(cmd)
           end
         end
@@ -65,18 +75,20 @@ module Foobara
                 "eslint-plugin-promise@^6.1.1 " \
                 "typescript@^4.0.0 "
 
-          run_cmd_and_write_output(cmd)
+          Dir.chdir project_directory do
+            run_cmd_and_write_output(cmd)
+          end
         end
 
         def run_post_generation_tasks
-          Dir.chdir output_directory do
-            eslint_fix
-          end
+          eslint_fix
         end
 
         def eslint_fix
           cmd = "npx eslint 'src/**/*.{js,jsx,ts,tsx}' --fix"
-          run_cmd_and_write_output(cmd)
+          Dir.chdir project_directory do
+            run_cmd_and_write_output(cmd)
+          end
         end
       end
     end

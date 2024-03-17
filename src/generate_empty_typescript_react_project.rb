@@ -13,10 +13,15 @@ module Foobara
         inputs EmptyTypescriptReactProjectConfig
 
         def execute
+          include_non_templated_files
+
           add_initial_elements_to_generate
 
           each_element_to_generate do
+            # currently there are no templated files to write and so this code path isn't hit
+            # :nocov:
             generate_element
+            # :nocov:
           end
 
           paths_to_source_code
@@ -30,10 +35,7 @@ module Foobara
 
         # TODO: delegate this to base_generator
         def templates_dir
-          # TODO: implement this?
-          # :nocov:
           "#{__dir__}/../templates"
-          # :nocov:
         end
 
         def add_initial_elements_to_generate

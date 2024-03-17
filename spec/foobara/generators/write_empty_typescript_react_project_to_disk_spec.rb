@@ -1,6 +1,6 @@
 RSpec.describe Foobara::Generators::EmptyTypescriptReactProjectGenerator::WriteEmptyTypescriptReactProjectToDisk do
   let(:command) { described_class.new(inputs) }
-  let(:outcome) { empty_typescript_react_project.run }
+  let(:outcome) { command.run }
   let(:result) { outcome.result }
   let(:errors) { outcome.errors }
   let(:inputs) do
@@ -11,18 +11,14 @@ RSpec.describe Foobara::Generators::EmptyTypescriptReactProjectGenerator::WriteE
   end
   let(:empty_typescript_react_project_config) do
     {
-      project_dir:,
-      description: "whatever"
+      project_dir:
     }
   end
-  let(:project_dir) { "SomeOrg" }
-  let(:output_directory) { "#{__dir__}/../../../tmp/empty_typescript_react_project_test_suite_output" }
+  let(:project_dir) { "test-project" }
+  let(:output_directory) { "#{__dir__}/../../../tmp/rspec-output" }
 
   before do
-    # rubocop:disable RSpec/AnyInstance
-    allow_any_instance_of(described_class).to receive(:git_commit).and_return(nil)
-    allow_any_instance_of(described_class).to receive(:rubocop_autocorrect).and_return(nil)
-    # rubocop:enable RSpec/AnyInstance
+    allow(command).to receive_messages(git_commit: nil, rubocop_autocorrect: nil)
     FileUtils.rm_rf output_directory
   end
 
@@ -30,7 +26,7 @@ RSpec.describe Foobara::Generators::EmptyTypescriptReactProjectGenerator::WriteE
     it "contains base files" do
       expect(outcome).to be_success
 
-      expect(command.paths_to_source_code.keys).to include("src/some_org.rb")
+      expect(File.exist?("#{output_directory}/#{project_dir}/.eslintrc.js")).to be(true)
     end
   end
 
@@ -44,7 +40,7 @@ RSpec.describe Foobara::Generators::EmptyTypescriptReactProjectGenerator::WriteE
 
       it "writes files to the current directory" do
         command.cast_and_validate_inputs
-        expect(command.output_directory).to eq(".")
+        expect(command.output_parent_directory).to eq(".")
       end
     end
   end
