@@ -1,14 +1,14 @@
 module Foobara
   module Generators
-    module OrganizationGenerator
+    module EmptyTypescriptReactProjectGenerator
       module Generators
-        class OrganizationGenerator < Foobara::FilesGenerator
+        class EmptyTypescriptReactProjectGenerator < Foobara::FilesGenerator
           class << self
             def manifest_to_generator_classes(manifest)
               case manifest
-              when OrganizationConfig
+              when EmptyTypescriptReactProjectConfig
                 [
-                  Generators::OrganizationGenerator
+                  Generators::EmptyTypescriptReactProjectGenerator
                 ]
               else
                 # :nocov:
@@ -30,7 +30,7 @@ module Foobara
             ["src", *path, file]
           end
 
-          alias organization_config relevant_manifest
+          alias empty_typescript_react_project_config relevant_manifest
 
           def templates_dir
             "#{__dir__}/../templates"

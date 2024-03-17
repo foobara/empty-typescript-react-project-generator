@@ -36,7 +36,7 @@ jobs:
         env:
           cache-name: cache-foobara
         with:
-          path: ~/work/organization-generator/foobara
+          path: ~/work/empty-typescript-react-project-generator/foobara
           key: ${{ env.cache-name }}-${{ env.foobara_branch }}-${{ env.foobara_sha1 }}
           restore-keys: |
             ${{ env.cache-name }}-${{ env.foobara_branch }}-
@@ -67,9 +67,9 @@ jobs:
         run: |
           set -e
           mkdir -p .bundle
-          echo -e "---\nBUNDLE_LOCAL__FOOBARA: '/home/runner/work/organization-generator/foobara'" > .bundle/config
+          echo -e "---\nBUNDLE_LOCAL__FOOBARA: '/home/runner/work/empty-typescript-react-project-generator/foobara'" > .bundle/config
           mkdir ../../foobara
-          ln -s  ../../organization-generator/foobara ../../foobara/foobara
+          ln -s  ../../empty-typescript-react-project-generator/foobara ../../foobara/foobara
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:

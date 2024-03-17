@@ -2,24 +2,24 @@ require "English"
 
 module Foobara
   module Generators
-    module OrganizationGenerator
-      class OrganizationConfig < Foobara::Model
+    module EmptyTypescriptReactProjectGenerator
+      class EmptyTypescriptReactProjectConfig < Foobara::Model
         attributes do
-          organization_name :string, :required
+          project_dir :string, :required
           description :string, :allow_nil
         end
 
         attr_accessor :module_path
 
         def initialize(attributes = nil, options = {})
-          organization_name = attributes[:organization_name]
+          project_dir = attributes[:project_dir]
           description = attributes[:description]
 
-          module_path = organization_name.split("::")
+          module_path = project_dir.split("::")
 
           super(
             {
-              organization_name:,
+              project_dir:,
               description:
             },
             options

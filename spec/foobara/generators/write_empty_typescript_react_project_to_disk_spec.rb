@@ -1,22 +1,22 @@
-RSpec.describe Foobara::Generators::OrganizationGenerator::WriteOrganizationToDisk do
-  let(:organization) { described_class.new(inputs) }
-  let(:outcome) { organization.run }
+RSpec.describe Foobara::Generators::EmptyTypescriptReactProjectGenerator::WriteEmptyTypescriptReactProjectToDisk do
+  let(:command) { described_class.new(inputs) }
+  let(:outcome) { empty_typescript_react_project.run }
   let(:result) { outcome.result }
   let(:errors) { outcome.errors }
   let(:inputs) do
     {
-      organization_config:,
+      empty_typescript_react_project_config:,
       output_directory:
     }
   end
-  let(:organization_config) do
+  let(:empty_typescript_react_project_config) do
     {
-      organization_name:,
+      project_dir:,
       description: "whatever"
     }
   end
-  let(:organization_name) { "SomeOrg" }
-  let(:output_directory) { "#{__dir__}/../../../tmp/organization_test_suite_output" }
+  let(:project_dir) { "SomeOrg" }
+  let(:output_directory) { "#{__dir__}/../../../tmp/empty_typescript_react_project_test_suite_output" }
 
   before do
     # rubocop:disable RSpec/AnyInstance
@@ -30,7 +30,7 @@ RSpec.describe Foobara::Generators::OrganizationGenerator::WriteOrganizationToDi
     it "contains base files" do
       expect(outcome).to be_success
 
-      expect(organization.paths_to_source_code.keys).to include("src/some_org.rb")
+      expect(command.paths_to_source_code.keys).to include("src/some_org.rb")
     end
   end
 
@@ -38,13 +38,13 @@ RSpec.describe Foobara::Generators::OrganizationGenerator::WriteOrganizationToDi
     context "with no output directory" do
       let(:inputs) do
         {
-          organization_config:
+          empty_typescript_react_project_config:
         }
       end
 
       it "writes files to the current directory" do
-        organization.cast_and_validate_inputs
-        expect(organization.output_directory).to eq(".")
+        command.cast_and_validate_inputs
+        expect(command.output_directory).to eq(".")
       end
     end
   end

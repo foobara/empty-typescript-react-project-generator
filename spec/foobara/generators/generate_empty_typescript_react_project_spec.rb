@@ -1,21 +1,21 @@
-RSpec.describe Foobara::Generators::OrganizationGenerator::GenerateOrganization do
-  let(:organization_name) { "SomePrefix::SomeOrg" }
+RSpec.describe Foobara::Generators::EmptyTypescriptReactProjectGenerator::GenerateEmptyTypescriptReactProject do
+  let(:project_dir) { "SomePrefix::SomeOrg" }
 
   let(:inputs) do
     {
-      organization_name:,
+      project_dir:,
       description: "whatever"
     }
   end
-  let(:organization) { described_class.new(inputs) }
-  let(:outcome) { organization.run }
+  let(:empty_typescript_react_project) { described_class.new(inputs) }
+  let(:outcome) { empty_typescript_react_project.run }
   let(:result) { outcome.result }
 
-  it "generates a organization" do
+  it "generates a empty_typescript_react_project" do
     expect(outcome).to be_success
 
-    organization_file = result["src/some_prefix/some_org.rb"]
-    expect(organization_file).to include("module SomeOrg")
-    expect(organization_file).to include("module SomePrefix")
+    empty_typescript_react_project_file = result["src/some_prefix/some_org.rb"]
+    expect(empty_typescript_react_project_file).to include("module SomeOrg")
+    expect(empty_typescript_react_project_file).to include("module SomePrefix")
   end
 end

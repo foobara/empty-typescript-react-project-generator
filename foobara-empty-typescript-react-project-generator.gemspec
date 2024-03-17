@@ -1,13 +1,13 @@
 require_relative "src/version"
 
 Gem::Specification.new do |spec|
-  spec.name = "foobara-organization-generator"
-  spec.version = Foobara::Generators::OrganizationGenerator::VERSION
+  spec.name = "foobara-empty-typescript-react-project-generator"
+  spec.version = Foobara::Generators::EmptyTypescriptReactProjectGenerator::VERSION
   spec.authors = ["Miles Georgi"]
   spec.email = ["azimux@gmail.com"]
 
-  spec.summary = "Generates Foobara organizations"
-  spec.homepage = "https://github.com/foobara/generators-organization-generator"
+  spec.summary = "Generates empty typescript react projects"
+  spec.homepage = "https://github.com/foobara/generators-empty-typescript-react-project-generator"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.2.2"
 

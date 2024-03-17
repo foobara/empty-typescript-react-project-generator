@@ -33,4 +33,4 @@ RSpec.configure do |config|
 end
 
 require "foobara/spec_helpers/all"
-require "foobara/organization_generator"
+require "foobara/empty_typescript_react_project_generator"

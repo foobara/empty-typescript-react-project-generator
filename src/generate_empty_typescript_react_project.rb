@@ -1,16 +1,16 @@
 require "pathname"
 
-require_relative "organization_config"
+require_relative "empty_typescript_react_project_config"
 
 module Foobara
   module Generators
-    module OrganizationGenerator
-      class GenerateOrganization < Foobara::Generators::Generate
+    module EmptyTypescriptReactProjectGenerator
+      class GenerateEmptyTypescriptReactProject < Foobara::Generators::Generate
         class MissingManifestError < RuntimeError; end
 
         possible_error MissingManifestError
 
-        inputs OrganizationConfig
+        inputs EmptyTypescriptReactProjectConfig
 
         def execute
           add_initial_elements_to_generate
@@ -25,7 +25,7 @@ module Foobara
         attr_accessor :manifest_data
 
         def base_generator
-          Generators::OrganizationGenerator
+          Generators::EmptyTypescriptReactProjectGenerator
         end
 
         # TODO: delegate this to base_generator
@@ -37,11 +37,11 @@ module Foobara
         end
 
         def add_initial_elements_to_generate
-          elements_to_generate << organization_config
+          elements_to_generate << empty_typescript_react_project_config
         end
 
-        def organization_config
-          @organization_config ||= OrganizationConfig.new(inputs)
+        def empty_typescript_react_project_config
+          @empty_typescript_react_project_config ||= EmptyTypescriptReactProjectConfig.new(inputs)
         end
       end
     end
