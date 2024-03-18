@@ -1,0 +1,18 @@
+name: tests
+on: push
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    name: run test suite
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        if: always()
+        uses: actions/setup-node@v2
+        with:
+          # how to grab this from .nvmrc??
+          node-version: "20.9"
+      - name: Install dependencies
+        run: npm install
+      - name: Run test
+        run: npm run test
