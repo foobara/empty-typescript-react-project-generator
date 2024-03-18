@@ -7,7 +7,7 @@ GIT
 
 GIT
   remote: https://github.com/foobara/files-generator.git
-  revision: e51ee030f697e7e7669df7ad329c407b3acead11
+  revision: aac85a7084ed26bcf783305415a17759090378fe
   specs:
     foobara-files-generator (0.1.0)
 

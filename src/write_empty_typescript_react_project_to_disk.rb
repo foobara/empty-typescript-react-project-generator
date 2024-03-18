@@ -39,7 +39,9 @@ module Foobara
         end
 
         def project_directory
-          "#{output_parent_directory}/#{empty_typescript_react_project_config.project_dir}"
+          path = "#{output_parent_directory}/#{empty_typescript_react_project_config.project_dir}"
+
+          Pathname.new(path).realpath.to_s
         end
 
         def generate_file_contents
@@ -50,6 +52,10 @@ module Foobara
         def run_pre_generation_tasks
           run_npx_create_react_app
           add_necessary_dev_dependencies_for_eslint
+          eslint_fix
+          git_init
+          git_add_all
+          git_commit_lint_fixes
         end
 
         def run_npx_create_react_app
@@ -82,12 +88,88 @@ module Foobara
 
         def run_post_generation_tasks
           eslint_fix
+          git_add_all
+          git_commit_generated_files
+          github_create_repo
+          git_add_remote_origin
+          git_branch_main
+          push_to_github
         end
 
         def eslint_fix
           cmd = "npx eslint 'src/**/*.{js,jsx,ts,tsx}' --fix"
           Dir.chdir project_directory do
             run_cmd_and_write_output(cmd)
+          end
+        end
+
+        def git_init
+          cmd = "git init"
+
+          Dir.chdir project_directory do
+            run_cmd_and_write_output(cmd)
+          end
+        end
+
+        def git_add_all
+          cmd = "git add ."
+
+          Dir.chdir project_directory do
+            run_cmd_and_write_output(cmd)
+          end
+        end
+
+        def git_commit_lint_fixes
+          cmd = "git commit -m 'Make project work with eslint and eslint --fix everything'"
+
+          Dir.chdir project_directory do
+            run_cmd_and_write_output(cmd, raise_if_fails: false)
+          end
+        end
+
+        def git_commit_generated_files
+          cmd = "git commit -m 'Generate additional files to make things work with Foobara'"
+
+          Dir.chdir project_directory do
+            run_cmd_and_write_output(cmd, raise_if_fails: false)
+          end
+        end
+
+        def git_repo_path
+          org = empty_typescript_react_project_config.github_organization ||
+                File.basename(File.dirname(project_directory.to_s))
+          "#{org}/#{empty_typescript_react_project_config.project_dir}"
+        end
+
+        def github_create_repo
+          cmd = "gh repo create --public --push --source=. #{git_repo_path}"
+
+          Dir.chdir project_directory do
+            run_cmd_and_write_output(cmd, raise_if_fails: false)
+          end
+        end
+
+        def git_add_remote_origin
+          cmd = "git remote add origin git@github.com:#{git_repo_path}.git"
+
+          Dir.chdir project_directory do
+            run_cmd_and_write_output(cmd)
+          end
+        end
+
+        def git_branch_main
+          cmd = "git branch -M main"
+
+          Dir.chdir project_directory do
+            run_cmd_and_write_output(cmd)
+          end
+        end
+
+        def push_to_github
+          cmd = "git push -u origin main"
+
+          Dir.chdir project_directory do
+            run_cmd_and_write_output(cmd, raise_if_fails: false)
           end
         end
       end

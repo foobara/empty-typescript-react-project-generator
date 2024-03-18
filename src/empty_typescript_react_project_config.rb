@@ -6,6 +6,7 @@ module Foobara
       class EmptyTypescriptReactProjectConfig < Foobara::Model
         attributes do
           project_dir :string, :required
+          github_organization :string
         end
       end
     end
