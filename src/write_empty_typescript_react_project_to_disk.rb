@@ -6,7 +6,7 @@ module Foobara
       class WriteEmptyTypescriptReactProjectToDisk < Foobara::Generators::WriteGeneratedFilesToDisk
         class << self
           def generator_key
-            "empty_typescript_react_project"
+            "typescript-react-project"
           end
         end
 
@@ -90,13 +90,15 @@ module Foobara
           eslint_fix
           git_add_all
           git_commit_generated_files
-          github_create_repo
+          gh_repo_create
           git_add_remote_origin
           git_branch_main
           push_to_github
         end
 
         def eslint_fix
+          puts "linting..."
+
           cmd = "npx eslint 'src/**/*.{js,jsx,ts,tsx}' --fix"
           Dir.chdir project_directory do
             run_cmd_and_write_output(cmd)
@@ -141,7 +143,7 @@ module Foobara
           "#{org}/#{empty_typescript_react_project_config.project_dir}"
         end
 
-        def github_create_repo
+        def gh_repo_create
           cmd = "gh repo create --public --push --source=. #{git_repo_path}"
 
           Dir.chdir project_directory do
