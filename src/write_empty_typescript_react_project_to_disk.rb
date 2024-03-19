@@ -152,13 +152,14 @@ module Foobara
         end
 
         def git_add_remote_origin
+          git_remote_cmd = "git remote"
+          git_remote_add_cmd = "git remote add origin git@github.com:#{git_repo_path}.git"
+
           Dir.chdir project_directory do
-            cmd = "git remote"
-            remotes = run_cmd_and_return_output(cmd)
+            remotes = run_cmd_and_return_output(git_remote_cmd)
 
             if remotes !~ /^origin$/
-              cmd = "git remote add origin git@github.com:#{git_repo_path}.git"
-              run_cmd_and_write_output(cmd)
+              run_cmd_and_write_output(git_remote_add_cmd)
             end
           end
         end
