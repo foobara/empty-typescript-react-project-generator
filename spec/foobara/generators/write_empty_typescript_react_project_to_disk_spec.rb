@@ -27,6 +27,7 @@ RSpec.describe Foobara::Generators::EmptyTypescriptReactProjectGenerator::WriteE
       expect(outcome).to be_success
 
       expect(File.exist?("#{output_directory}/#{project_dir}/.eslintrc.js")).to be(true)
+      expect(File.exist?("#{output_directory}/#{project_dir}/.github/workflows/tests.yml")).to be(true)
     end
   end
 
