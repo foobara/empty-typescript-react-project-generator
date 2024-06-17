@@ -1,5 +1,7 @@
-## [Unreleased]
+## [0.0.0] - 2024-06-17
 
-## [0.0.1] - 2024-03-02
+- Add Apache-2.0 license
 
-- Initial release
+## [0.0.0] - 2024-02-20
+
+- Project birth
