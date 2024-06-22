@@ -1,3 +1,7 @@
+## [0.0.3] - 2024-06-21
+
+- Include hidden template files/directories in gem
+
 ## [0.0.2] - 2024-06-21
 
 - Include templates in gem

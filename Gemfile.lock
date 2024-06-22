@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    foobara-empty-typescript-react-project-generator (0.0.2)
+    foobara-empty-typescript-react-project-generator (0.0.3)
       foobara
       foobara-files-generator
 
