@@ -39,5 +39,7 @@ module.exports = {
         "@typescript-eslint/triple-slash-reference": "off",
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/no-floating-promises": "off",
+        "react/jsx-indent" : ["error", 2],
+        "react/jsx-indent-props": ["error", 2]
     }
 }
