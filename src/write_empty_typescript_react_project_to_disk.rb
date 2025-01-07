@@ -52,6 +52,7 @@ module Foobara
         def run_pre_generation_tasks
           run_npx_create_react_app
           add_necessary_dev_dependencies_for_eslint
+          fix_uncorrectable_lint_violations
           eslint_fix
           git_init
           git_add_all
@@ -94,6 +95,14 @@ module Foobara
           git_add_remote_origin
           git_branch_main
           push_to_github
+        end
+
+        def fix_uncorrectable_lint_violations
+          Dir.chdir(project_directory) do
+            web_vitals_contents = File.read("src/reportWebVitals.ts")
+            web_vitals_contents.gsub!("if (onPerfEntry && ", "if (onPerfEntry != null && ")
+            File.write("src/reportWebVitals.ts", web_vitals_contents)
+          end
         end
 
         def eslint_fix
