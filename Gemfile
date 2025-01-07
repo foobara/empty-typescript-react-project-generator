@@ -1,9 +1,12 @@
+require_relative "version"
+
 source "https://rubygems.org"
-ruby File.read("#{__dir__}/.ruby-version")
+ruby Foobara::Generators::EmptyTypescriptReactProjectGenerator::MINIMUM_RUBY_VERSION
 
 gemspec
 
 # gem "foobara-util", path: "../util"
+# gem "foobara-files-generator", path: "../files-generator"
 
 gem "rake"
 

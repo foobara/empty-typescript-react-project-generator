@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
   spec.license = "Apache-2.0 OR MIT"
   spec.licenses = ["Apache-2.0", "MIT"]
 
-  spec.required_ruby_version = ">= #{File.read("#{__dir__}/.ruby-version")}"
+  spec.required_ruby_version = Foobara::Generators::EmptyTypescriptReactProjectGenerator::MINIMUM_RUBY_VERSION
 
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = spec.homepage
