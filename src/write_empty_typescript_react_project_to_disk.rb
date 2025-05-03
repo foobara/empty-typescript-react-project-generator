@@ -153,7 +153,7 @@ module Foobara
         end
 
         def gh_repo_create
-          cmd = "gh repo create --public --push --source=. #{git_repo_path}"
+          cmd = "gh repo create --private --push --source=. #{git_repo_path}"
 
           Dir.chdir project_directory do
             run_cmd_and_write_output(cmd, raise_if_fails: false)

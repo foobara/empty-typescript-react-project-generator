@@ -1,3 +1,7 @@
+## [0.0.5] - 2025-05-03
+
+- Create github repositories as private instead of public
+
 ## [0.0.4] - 2025-01-07
 
 - Fix bug caused by uncorrectable lint violation in generated project
