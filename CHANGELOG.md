@@ -1,3 +1,7 @@
+## [0.0.6] - 2025-05-03
+
+- Make pushing to github off by default and make failures not stop the generator
+
 ## [0.0.5] - 2025-05-03
 
 - Create github repositories as private instead of public

@@ -11,14 +11,19 @@ RSpec.describe Foobara::Generators::EmptyTypescriptReactProjectGenerator::WriteE
   end
   let(:empty_typescript_react_project_config) do
     {
-      project_dir:
+      project_dir:,
+      push_to_github: true
     }
   end
   let(:project_dir) { "test-project" }
   let(:output_directory) { "#{__dir__}/../../../tmp/rspec-output" }
 
   before do
-    allow(command).to receive_messages(git_commit: nil, rubocop_autocorrect: nil)
+    # rubocop:disable RSpec/AnyInstance
+    # Stubbing these to let more lines of the code be hit by the test suite
+    allow_any_instance_of(described_class).to receive(:push_to_github_failed).and_return(nil)
+    # rubocop:enable RSpec/AnyInstance
+
     FileUtils.rm_rf output_directory
   end
 

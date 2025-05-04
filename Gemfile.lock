@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    foobara-empty-typescript-react-project-generator (0.0.5)
+    foobara-empty-typescript-react-project-generator (0.0.6)
       foobara (~> 0.0.116)
       foobara-files-generator (~> 0.0.1)
 
@@ -20,10 +20,10 @@ GEM
       foobara-lru-cache (~> 0.0.2)
       foobara-util (~> 0.0.11)
       inheritable-thread-vars (~> 0.0.1)
-    foobara-files-generator (0.0.6)
+    foobara-files-generator (0.0.7)
       foobara (~> 0.0.116)
     foobara-lru-cache (0.0.2)
-    foobara-rubocop-rules (0.0.8)
+    foobara-rubocop-rules (0.0.9)
       rubocop
       rubocop-rspec
     foobara-spec-helpers (0.0.4)

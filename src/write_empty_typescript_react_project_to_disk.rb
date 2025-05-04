@@ -44,6 +44,10 @@ module Foobara
           Pathname.new(path).realpath.to_s
         end
 
+        def push_to_github?
+          empty_typescript_react_project_config.push_to_github
+        end
+
         def generate_file_contents
           self.paths_to_source_code = run_subcommand!(GenerateEmptyTypescriptReactProject,
                                                       empty_typescript_react_project_config.attributes)
@@ -91,10 +95,13 @@ module Foobara
           eslint_fix
           git_add_all
           git_commit_generated_files
-          gh_repo_create
-          git_add_remote_origin
           git_branch_main
-          push_to_github
+
+          if push_to_github?
+            gh_repo_create
+            git_add_remote_origin
+            push_to_github
+          end
         end
 
         def fix_uncorrectable_lint_violations
@@ -152,15 +159,29 @@ module Foobara
           "#{org}/#{empty_typescript_react_project_config.project_dir}"
         end
 
+        attr_accessor :push_to_github_failed
+
+        def push_to_github_failed?
+          push_to_github_failed
+        end
+
         def gh_repo_create
+          return if push_to_github_failed?
+
           cmd = "gh repo create --private --push --source=. #{git_repo_path}"
 
           Dir.chdir project_directory do
-            run_cmd_and_write_output(cmd, raise_if_fails: false)
+            exit_status = run_cmd_and_write_output(cmd, raise_if_fails: false)
+
+            unless exit_status&.success?
+              self.push_to_github_failed = true
+            end
           end
         end
 
         def git_add_remote_origin
+          return if push_to_github_failed?
+
           git_remote_cmd = "git remote"
           git_remote_add_cmd = "git remote add origin git@github.com:#{git_repo_path}.git"
 
@@ -168,9 +189,20 @@ module Foobara
             remotes = run_cmd_and_return_output(git_remote_cmd)
 
             if remotes !~ /^origin$/
-              run_cmd_and_write_output(git_remote_add_cmd)
+              exit_status = run_cmd_and_write_output(git_remote_add_cmd)
+
+              unless exit_status&.success?
+                # :nocov:
+                self.push_to_github_failed = true
+                # :nocov:
+              end
             end
           end
+        rescue CouldNotExecuteError => e
+          # :nocov:
+          self.push_to_github_failed = true
+          warn e.message
+          # :nocov:
         end
 
         def git_branch_main
@@ -185,7 +217,11 @@ module Foobara
           cmd = "git push -u origin main"
 
           Dir.chdir project_directory do
-            run_cmd_and_write_output(cmd, raise_if_fails: false)
+            exit_status = run_cmd_and_write_output(cmd, raise_if_fails: false)
+
+            unless exit_status&.success?
+              self.push_to_github_failed = true
+            end
           end
         end
       end
