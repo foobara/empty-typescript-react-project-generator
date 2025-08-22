@@ -1,3 +1,7 @@
+## [0.1.0] - 2025-08-22
+
+- Mark as compatible with Foobara 0.1.0
+
 ## [0.0.6] - 2025-05-03
 
 - Make pushing to github off by default and make failures not stop the generator
