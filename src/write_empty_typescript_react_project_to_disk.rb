@@ -54,19 +54,18 @@ module Foobara
         end
 
         def run_pre_generation_tasks
-          run_npx_create_react_app
-          add_necessary_dev_dependencies_for_eslint
-          fix_uncorrectable_lint_violations
+          run_npm_create_vite
+          npm_install
           eslint_fix
           git_init
           git_add_all
-          git_commit_lint_fixes
+          git_commit_initial_setup
         end
 
-        def run_npx_create_react_app
-          puts "created empty project with create-react-app..."
+        def run_npm_create_vite
+          puts "creating empty project with Vite..."
 
-          cmd = "npx create-react-app --template typescript #{empty_typescript_react_project_config.project_dir}"
+          cmd = "npm create vite@latest #{empty_typescript_react_project_config.project_dir} -- --template react-ts"
 
           FileUtils.mkdir_p output_parent_directory
 
@@ -75,16 +74,10 @@ module Foobara
           end
         end
 
-        def add_necessary_dev_dependencies_for_eslint
-          puts "adding dependencies needed for linter to actually work..."
+        def npm_install
+          puts "installing dependencies..."
 
-          cmd = "npm install --save-dev " \
-                "@babel/plugin-proposal-private-property-in-object@^7.21.11 " \
-                "@eslint/create-config@^0.4.6 " \
-                "eslint-config-standard-with-typescript@^37.0.0 " \
-                "eslint-plugin-n@^16.5.0 " \
-                "eslint-plugin-promise@^6.1.1 " \
-                "typescript@^4.0.0 "
+          cmd = "npm install"
 
           Dir.chdir project_directory do
             run_cmd_and_write_output(cmd)
@@ -104,18 +97,10 @@ module Foobara
           end
         end
 
-        def fix_uncorrectable_lint_violations
-          Dir.chdir(project_directory) do
-            web_vitals_contents = File.read("src/reportWebVitals.ts")
-            web_vitals_contents.gsub!("if (onPerfEntry && ", "if (onPerfEntry != null && ")
-            File.write("src/reportWebVitals.ts", web_vitals_contents)
-          end
-        end
-
         def eslint_fix
           puts "linting..."
 
-          cmd = "npx eslint 'src/**/*.{js,jsx,ts,tsx}' --fix"
+          cmd = "npx eslint . --fix"
           Dir.chdir project_directory do
             run_cmd_and_write_output(cmd)
           end
@@ -137,8 +122,8 @@ module Foobara
           end
         end
 
-        def git_commit_lint_fixes
-          cmd = "git commit -m 'Make project work with eslint and eslint --fix everything'"
+        def git_commit_initial_setup
+          cmd = "git commit -m 'Initial Vite project with react-ts template'"
 
           Dir.chdir project_directory do
             run_cmd_and_write_output(cmd, raise_if_fails: false)

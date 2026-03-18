@@ -3,16 +3,17 @@ on: push
 jobs:
   tests:
     runs-on: ubuntu-latest
-    name: run test suite
+    name: build and lint
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Use Node.js
         if: always()
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          # how to grab this from .nvmrc??
-          node-version: "20.9"
+          node-version: "20"
       - name: Install dependencies
         run: npm install
-      - name: Run test
-        run: npm run test
+      - name: Lint
+        run: npm run lint
+      - name: Build
+        run: npm run build
