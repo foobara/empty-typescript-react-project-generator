@@ -1,0 +1,22 @@
+export const SITE_URL = '<%= site_url %>'
+
+export interface SitemapPage {
+  loc: string
+  changefreq: string
+  priority: string
+  lastmod?: string
+}
+
+export const STATIC_PAGES: SitemapPage[] = [{ loc: '/', changefreq: 'monthly', priority: '1.0' }]
+
+export function getDynamicPages(): SitemapPage[] {
+  return []
+}
+
+export function getSitemapPages(): SitemapPage[] {
+  return [...STATIC_PAGES, ...getDynamicPages()]
+}
+
+export function getRoutePaths(): string[] {
+  return getSitemapPages().map((page) => page.loc)
+}

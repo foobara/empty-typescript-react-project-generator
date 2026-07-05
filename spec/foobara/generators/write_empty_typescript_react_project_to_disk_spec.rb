@@ -32,6 +32,15 @@ RSpec.describe Foobara::Generators::EmptyTypescriptReactProjectGenerator::WriteE
       expect(outcome).to be_success
 
       expect(File.exist?("#{output_directory}/#{project_dir}/.github/workflows/tests.yml")).to be(true)
+      expect(File.exist?("#{output_directory}/#{project_dir}/scripts/generate-sitemap.ts")).to be(true)
+      expect(File.exist?("#{output_directory}/#{project_dir}/scripts/routes.ts")).to be(true)
+      expect(File.exist?("#{output_directory}/#{project_dir}/public/robots.txt")).to be(true)
+
+      package_json = JSON.parse(File.read("#{output_directory}/#{project_dir}/package.json"))
+
+      expect(package_json["scripts"]["prebuild"]).to include("generate-sitemap")
+      expect(package_json["scripts"]["postbuild"]).to include("prerender.ts")
+      expect(package_json["devDependencies"].keys).to include("puppeteer", "tsx")
     end
   end
 

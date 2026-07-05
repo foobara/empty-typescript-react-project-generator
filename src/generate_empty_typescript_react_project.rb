@@ -18,10 +18,7 @@ module Foobara
           add_initial_elements_to_generate
 
           each_element_to_generate do
-            # currently there are no templated files to write and so this code path isn't hit
-            # :nocov:
             generate_element
-            # :nocov:
           end
 
           paths_to_source_code

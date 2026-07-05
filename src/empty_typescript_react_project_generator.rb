@@ -7,8 +7,10 @@ module Foobara
             def manifest_to_generator_classes(manifest)
               case manifest
               when EmptyTypescriptReactProjectConfig
-                # Nothing to do yet re: rendering templates. Everything is untemplated so far.
-                []
+                [
+                  Generators::RobotsTxtGenerator,
+                  Generators::RoutesTsGenerator
+                ]
               else
                 # :nocov:
                 raise "Not sure how build a generator for a #{manifest}"
@@ -16,6 +18,10 @@ module Foobara
               end
             end
           end
+
+          alias empty_typescript_react_project_config relevant_manifest
+
+          def templates_dir = "#{__dir__}/../templates"
         end
       end
     end

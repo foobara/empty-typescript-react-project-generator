@@ -84,6 +84,8 @@ module Foobara
         end
 
         def run_post_generation_tasks
+          npm_install_sitemap_and_prerender_dependencies
+          add_build_scripts_to_package_json
           oxlint_fix
           git_add_all
           git_commit_generated_files
@@ -93,6 +95,30 @@ module Foobara
             gh_repo_create
             git_add_remote_origin
             push_to_github
+          end
+        end
+
+        def npm_install_sitemap_and_prerender_dependencies
+          puts "installing sitemap/pre-render dependencies..."
+
+          cmd = "npm install --save-dev puppeteer tsx @types/node"
+
+          Dir.chdir project_directory do
+            run_cmd_and_write_output(cmd)
+          end
+        end
+
+        def add_build_scripts_to_package_json
+          puts "adding prebuild/postbuild scripts..."
+
+          Dir.chdir project_directory do
+            run_cmd_and_write_output(
+              'npm pkg set scripts.prebuild="npx puppeteer browsers install chrome && ' \
+              'tsx scripts/generate-sitemap.ts"'
+            )
+            run_cmd_and_write_output(
+              'npm pkg set scripts.postbuild="tsx scripts/prerender.ts"'
+            )
           end
         end
 
