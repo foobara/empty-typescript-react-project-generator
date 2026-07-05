@@ -56,7 +56,6 @@ module Foobara
         def run_pre_generation_tasks
           run_npm_create_vite
           npm_install
-          eslint_fix
           git_init
           git_add_all
           git_commit_initial_setup
@@ -85,7 +84,7 @@ module Foobara
         end
 
         def run_post_generation_tasks
-          eslint_fix
+          oxlint_fix
           git_add_all
           git_commit_generated_files
           git_branch_main
@@ -97,10 +96,10 @@ module Foobara
           end
         end
 
-        def eslint_fix
+        def oxlint_fix
           puts "linting..."
 
-          cmd = "npx eslint . --fix"
+          cmd = "npx oxlint --fix"
           Dir.chdir project_directory do
             run_cmd_and_write_output(cmd)
           end

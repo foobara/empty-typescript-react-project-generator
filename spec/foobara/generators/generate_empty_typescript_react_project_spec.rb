@@ -13,6 +13,6 @@ RSpec.describe Foobara::Generators::EmptyTypescriptReactProjectGenerator::Genera
   it "generates a empty_typescript_react_project" do
     expect(outcome).to be_success
 
-    expect(result.keys).to contain_exactly(".env", "eslint.config.js", ".github/workflows/tests.yml")
+    expect(result.keys).to contain_exactly(".env", ".oxlintrc.json", ".github/workflows/tests.yml")
   end
 end
