@@ -41,6 +41,7 @@ RSpec.describe Foobara::Generators::EmptyTypescriptReactProjectGenerator::WriteE
       expect(package_json["scripts"]["prebuild"]).to include("generate-sitemap")
       expect(package_json["scripts"]["postbuild"]).to include("prerender.ts")
       expect(package_json["devDependencies"].keys).to include("puppeteer", "tsx")
+      expect(package_json["dependencies"].keys).to include("react-router-dom")
     end
   end
 

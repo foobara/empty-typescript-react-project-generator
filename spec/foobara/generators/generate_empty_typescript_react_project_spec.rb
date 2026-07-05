@@ -22,7 +22,11 @@ RSpec.describe Foobara::Generators::EmptyTypescriptReactProjectGenerator::Genera
       "scripts/generate-sitemap.ts",
       "scripts/prerender.ts",
       "scripts/routes.ts",
-      "src/main.tsx"
+      "src/App.tsx",
+      "src/main.tsx",
+      "src/pages/About.tsx",
+      "src/pages/Home.tsx",
+      "src/pages/NotFound.tsx"
     )
 
     expect(result["public/robots.txt"]).to include("Sitemap: https://example.com/sitemap.xml")

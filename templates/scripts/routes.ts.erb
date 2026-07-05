@@ -7,7 +7,10 @@ export interface SitemapPage {
   lastmod?: string
 }
 
-export const STATIC_PAGES: SitemapPage[] = [{ loc: '/', changefreq: 'monthly', priority: '1.0' }]
+export const STATIC_PAGES: SitemapPage[] = [
+  { loc: '/', changefreq: 'monthly', priority: '1.0' },
+  { loc: '/about', changefreq: 'monthly', priority: '0.8' },
+]
 
 export function getDynamicPages(): SitemapPage[] {
   return []

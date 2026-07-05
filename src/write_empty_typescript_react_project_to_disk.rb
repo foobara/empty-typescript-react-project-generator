@@ -84,6 +84,7 @@ module Foobara
         end
 
         def run_post_generation_tasks
+          npm_install_react_router
           npm_install_sitemap_and_prerender_dependencies
           add_build_scripts_to_package_json
           oxlint_fix
@@ -95,6 +96,16 @@ module Foobara
             gh_repo_create
             git_add_remote_origin
             push_to_github
+          end
+        end
+
+        def npm_install_react_router
+          puts "installing react-router..."
+
+          cmd = "npm install react-router-dom"
+
+          Dir.chdir project_directory do
+            run_cmd_and_write_output(cmd)
           end
         end
 
