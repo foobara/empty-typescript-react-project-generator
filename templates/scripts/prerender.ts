@@ -19,6 +19,9 @@ const browser = await puppeteer.launch({
   args: ['--no-sandbox', '--disable-setuid-sandbox'],
 })
 
+// Render everything before writing anything to deal with / prerendering
+const rendered: { route: string; outputPath: string; html: string }[] = []
+
 for (const route of routes) {
   const page = await browser.newPage()
 
@@ -31,15 +34,18 @@ for (const route of routes) {
   await page.goto(new URL(route, serverUrl).href, { waitUntil: 'networkidle0' })
   await page.waitForFunction('window.__prerenderReady === true')
 
-  const html = await page.content()
   const outputPath = route === '/' ? 'index.html' : `${route.replace(/^\//, '')}.html`
+  rendered.push({ route, outputPath, html: await page.content() })
+
+  await page.close()
+}
+
+for (const { route, outputPath, html } of rendered) {
   const outputFile = resolve(distDir, outputPath)
 
   mkdirSync(dirname(outputFile), { recursive: true })
   writeFileSync(outputFile, html)
   console.log(`Pre-rendered ${route} -> dist/${outputPath}`)
-
-  await page.close()
 }
 
 await browser.close()

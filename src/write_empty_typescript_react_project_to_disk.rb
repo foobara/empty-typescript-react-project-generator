@@ -87,6 +87,7 @@ module Foobara
           npm_install_react_router
           npm_install_sitemap_and_prerender_dependencies
           add_build_scripts_to_package_json
+          remove_static_title_from_index_html
           oxlint_fix
           git_add_all
           git_commit_generated_files
@@ -131,6 +132,14 @@ module Foobara
               'npm pkg set scripts.postbuild="tsx scripts/prerender.ts"'
             )
           end
+        end
+
+        # Pages now set their own <title> in React 19
+        def remove_static_title_from_index_html
+          index_html_path = File.join(project_directory, "index.html")
+          contents = File.read(index_html_path)
+
+          File.write(index_html_path, contents.sub(%r{\s*<title>.*</title>}, ""))
         end
 
         def oxlint_fix
