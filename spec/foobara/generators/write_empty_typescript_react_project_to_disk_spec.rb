@@ -42,6 +42,7 @@ RSpec.describe Foobara::Generators::EmptyTypescriptReactProjectGenerator::WriteE
       expect(package_json["scripts"]["postbuild"]).to include("prerender.ts")
       expect(package_json["devDependencies"].keys).to include("puppeteer", "tsx")
       expect(package_json["dependencies"].keys).to include("react-router-dom")
+      expect(File.read("#{output_directory}/#{project_dir}/index.html")).to_not include("<title>")
     end
   end
 

@@ -1,3 +1,9 @@
+## [0.3.0] - 2026-07-05
+
+- Wire up react router/nav
+- Wire up a sitemap/prerender stuff
+- Switch to oxlint in generated projects
+
 ## [0.2.0] - 2026-03-19
 
 - Switch to generating the project with Vite instead of CRA
