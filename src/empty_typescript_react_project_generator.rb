@@ -12,9 +12,9 @@ module Foobara
                   Generators::RoutesTsGenerator
                 ]
               else
-                # :nocov:
+                # simplecov:disable
                 raise "Not sure how build a generator for a #{manifest}"
-                # :nocov:
+                # simplecov:enable
               end
             end
           end
