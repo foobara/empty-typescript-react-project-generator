@@ -222,17 +222,17 @@ module Foobara
               exit_status = run_cmd_and_write_output(git_remote_add_cmd)
 
               unless exit_status&.success?
-                # :nocov:
+                # simplecov:disable
                 self.push_to_github_failed = true
-                # :nocov:
+                # simplecov:enable
               end
             end
           end
         rescue CouldNotExecuteError => e
-          # :nocov:
+          # simplecov:disable
           self.push_to_github_failed = true
           warn e.message
-          # :nocov:
+          # simplecov:enable
         end
 
         def git_branch_main
